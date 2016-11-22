@@ -42,7 +42,7 @@ public class CoolWeatherDB {
      * 获取 CoolWeatherDB实例
      *
      * @param context
-     * @return
+     * @return coolWeatherDB
      */
     public synchronized static CoolWeatherDB getInstance(Context context) {
         if (coolWeatherDB == null) {
@@ -129,14 +129,14 @@ public class CoolWeatherDB {
     /**
      * 将county实例储存到数据库
      */
-    public   void   saveCounty(County county){
+    public void saveCounty(County county) {
 
-        if (county!=null){
+        if (county != null) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put("county_name",county.getCountyName());
-            contentValues.put("county_code",county.getCountyCode());
-            contentValues.put("city_id",county.getCityId());
-            db.insert("city",null,contentValues);
+            contentValues.put("county_name", county.getCountyName());
+            contentValues.put("county_code", county.getCountyCode());
+            contentValues.put("city_id", county.getCityId());
+            db.insert("city", null, contentValues);
         }
 
     }
@@ -144,11 +144,11 @@ public class CoolWeatherDB {
     /**
      * 从数据库中读取某城市下的所有县的信息
      */
-    public List<County>  loadCounty(int cityId){
+    public List<County> loadCounty(int cityId) {
 
         ArrayList<County> list = new ArrayList<>();
         Cursor cursor = db.query("city", null, "city_id=?", new String[]{String.valueOf(cityId)}, null, null, null);
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 County county = new County();
                 county.setId(cursor.getColumnIndex("id"));
@@ -157,7 +157,7 @@ public class CoolWeatherDB {
                 county.setCityId(cityId);
                 list.add(county);
 
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return list;
     }
